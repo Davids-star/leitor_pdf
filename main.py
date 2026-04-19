@@ -11,15 +11,22 @@ from openpyxl import load_workbook
 from buscar_pc import procurar_arquivos
 from config import carregar_configuracoes, salvar_configuracoes, configurar_caminhos_manualmente
 
-# Aque pega a pasta em que está todo o projeto
-BASE = os.path.dirname(__file__)
+# --- SISTEMA DE DEPENDÊNCIAS AUTOMÁTICAS ---
+from setup_dependencies import baixar_e_extrair, configurar_caminhos
 
-# Configuração do Tesseract e Poppler
-pytesseract.pytesseract.tesseract_cmd = os.path.join(
-    BASE, "tesseract", "tesseract.exe"
-)
+# URL onde você subiu o zip com (tesseract e poppler)
+# SUBSTITUA PELO SEU LINK DO GITHUB RELEASES
+URL_DEPENDENCIAS = "https://github.com/Davids-star/leitor_pdf/releases/download/v1.0/zip.zip"
 
-POPPLER_PATH = os.path.join(BASE, "poppler","Library", "bin")
+# Tenta baixar e extrair se não existir
+baixar_e_extrair(URL_DEPENDENCIAS, "dependencias")
+
+# Pega os caminhos onde as pastas foram extraídas
+TESSERACT_PATH, POPPLER_PATH = configurar_caminhos()
+
+# Configura o caminho do executável do Tesseract para o pytesseract
+pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
+# ------------------------------------------
 
 #  Minha classe para começar a ler os arquivos
 class LeitorDocumento:
@@ -27,8 +34,9 @@ class LeitorDocumento:
     #Responsavel por ler os arquivos e transformalos em texto
     # Arquivo para iniciar o programa e inditificando o poppler (ajuda o ocr a lê imagens) está
 
-    def __init__(self, poppler_path=r"C:\Program Files\poppler\Library\bin"):
-        self.poppler_path = poppler_path
+    def __init__(self, poppler_path=None):
+        # Se não passar nada, usa o caminho padrão das dependências baixadas
+        self.poppler_path = poppler_path if poppler_path else POPPLER_PATH
 
     def ler_pdf(self, caminho):
         texto = ""

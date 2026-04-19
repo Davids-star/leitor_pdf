@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Build e Distribuição
+build/
+dist/
+*.spec
+
+# Documentos e Dependências Locais (O que o programa vai baixar)
+dependencias/
+tesseract/
+poppler/
+*.zip
+*.json
+
+# Logs
+*.log
