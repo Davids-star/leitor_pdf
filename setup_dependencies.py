@@ -68,7 +68,7 @@ def baixar_e_extrair(url, pasta_destino):
 def configurar_caminhos():
     """Retorna os caminhos configurados baseados na pasta dependencias"""
     base = get_base_path()
-    deps_path = os.path.join(base, "dependencias")
+    deps_path = os.path.join(base, "dependencias", "zip") # Adicionado 'zip' aqui
     
     tesseract_exe = os.path.join(deps_path, "tesseract", "tesseract.exe")
     poppler_bin = os.path.join(deps_path, "poppler", "Library", "bin")
