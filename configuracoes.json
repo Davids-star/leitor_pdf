@@ -1,0 +1,14 @@
+{
+    "caminhos_busca": [
+        "C:\\Users\\fepda\\Documents",
+        "C:\\Users\\fepda\\Downloads",
+        "C:\\Users\\fepda\\Favorites"
+    ],
+    "extensoes": [
+        "*.txt",
+        "*.pdf",
+        "*.docx",
+        "*.xlsx",
+        "*.xls"
+    ]
+}
