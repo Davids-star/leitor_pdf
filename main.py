@@ -15,8 +15,11 @@ from config import carregar_configuracoes, salvar_configuracoes, configurar_cami
 BASE = os.path.dirname(__file__)
 
 # Configuração do Tesseract e Poppler
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-POPPLER_PATH = os.path.join(BASE, "poppler", "bin")
+pytesseract.pytesseract.tesseract_cmd = os.path.join(
+    BASE, "tesseract", "tesseract.exe"
+)
+
+POPPLER_PATH = os.path.join(BASE, "poppler","Library", "bin")
 
 #  Minha classe para começar a ler os arquivos
 class LeitorDocumento:
