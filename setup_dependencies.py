@@ -25,15 +25,25 @@ def baixar_e_extrair(url, pasta_destino):
             print(f"✅ Pasta '{pasta_destino}' já encontrada. Pulando download.")
             return True
 
-        print(f"🚀 Iniciando download das dependências... (Pode demorar)")
-        print(f"🔗 URL: {url}")
-
-        # 2. Download do arquivo
+        # 2. Download do arquivo com barra de progresso simples
         try:
-            with urllib.request.urlopen(url) as response, open(zip_path, 'wb') as out_file:
-                shutil.copyfileobj(response, out_file)
+            def report(block_num, block_size, total_size):
+                if total_size > 0:
+                    percent = min(100, int(block_num * block_size * 100 / total_size))
+                    sys.stdout.write(f"\r📥 Baixando: {percent}% [{'#' * (percent // 5)}{'.' * (20 - percent // 5)}]")
+                    sys.stdout.flush()
+
+            urllib.request.urlretrieve(url, zip_path, reporthook=report)
+            print("\n✅ Download finalizado!")
+            
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                print(f"\n❌ Erro 404: O link do arquivo não foi encontrado. Verifique se o nome do arquivo e a versão do Release estão corretos.")
+            else:
+                print(f"\n❌ Erro de conexão: {e}")
+            return False
         except Exception as e:
-            print(f"❌ Erro ao baixar arquivo: {e}")
+            print(f"\n❌ Erro durante o download: {e}")
             return False
 
         # 3. Extração
