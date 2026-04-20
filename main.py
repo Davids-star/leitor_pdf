@@ -7,7 +7,7 @@ from config import carregar_configuracoes, configurar_caminhos_manualmente
 
 # --- CONFIGURAÇÃO DE DEPENDÊNCIAS ---
 # Garante que as dependências de sistema (Tesseract/Poppler) existam
-URL_DEPENDENCIAS = "https://github.com/Davids-star/leitor_pdf/releases/download/v1.0/zip.zip"
+URL_DEPENDENCIAS = "https://github.com/Davids-star/leitor_pdf/releases/download/v.1.1/zip.zip"
 baixar_e_extrair(URL_DEPENDENCIAS, "dependencias")
 TESSERACT_PATH, POPPLER_PATH = configurar_caminhos()
 
