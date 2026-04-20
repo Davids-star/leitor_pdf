@@ -82,5 +82,3 @@ Se você quiser abrir o buscador rapidamente apenas digitando um comando no seu 
 
 Este projeto é de uso livre para estudos e melhorias. Sinta-se à vontade para contribuir!
 
----
-*Desenvolvido por Davids-star*
