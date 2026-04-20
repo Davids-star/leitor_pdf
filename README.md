@@ -1,9 +1,9 @@
 # 🔍 Buscador Global de Documentos (OCR)
 
-Este é um projeto robusto em Python projetado para buscar informações dentro de múltiplos tipos de arquivos (`.pdf`, `.docx`, `.xlsx`, `.txt`) de forma recursiva em pastas do sistema.
+Este é um projeto robusto em Python projetado para buscar e procurar multiplos arquivos (`.pdf`, `.docx`, `.xlsx`, `.txt`) por palavras em pastas do sistema.
 
 O grande diferencial deste projeto é a integração com **OCR (Optical Character Recognition)**, permitindo que ele "leia" PDFs que são apenas imagens (fotos de documentos), além de arquivos de texto nativos.
-
+Resumo: você irá procurar arquivo por palavras que tiver dentro do arquivo, número ou cpf, e ele ira voltar o nome do arquivo e a pasta onde ele estiver
 ---
 
 ## 🚀 Funcionalidades Principal
@@ -17,16 +17,6 @@ O grande diferencial deste projeto é a integração com **OCR (Optical Characte
 - **Filtro Avançado**: Permite filtrar a busca por nomes específicos de arquivos.
 - **Portabilidade**: O sistema baixa e configura automaticamente as dependências do Tesseract e Poppler caso não existam.
 - **Suporte Multi-formato**: Funciona com PDF, Word, Excel e Texto simples.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Python 3.x**
-- **OCR**: [Tesseract OCR](https://github.com/tesseract-ocr/tesseract)
-- **Processamento de PDF**: [PyMuPDF (fitz)](https://github.com/pymupdf/PyMuPDF) e [PyPDF2](https://pypi.org/project/PyPDF2/)
-- **Documentos Office**: `python-docx` e `openpyxl`
-- **Imagens**: `Pillow`
 
 ---
 
@@ -49,24 +39,16 @@ O processamento segue um fluxo inteligente:
 - O programa tentará baixar o Tesseract e Poppler automaticamente na primeira execução, mas certifique-se de ter conexão com a internet.
 
 ### Passos
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/Davids-star/leitor_pdf.git
-   ```
-2. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Baixe o arquivo 
+
+```https://github.com/Davids-star/leitor_pdf.git ```
+
+Procure o arquivo Compilar.bat e inicie, ele irá configurar o ambiente e criará a pasta "dist" e dentro haverá um executável para rodar
 
 ---
 
 ## 💻 Como Usar
-
-### Via Python
-Basta rodar o arquivo principal:
-```bash
-python main.py
-```
+OBESERVAÇÃO:
 
 ### Menu de Opções
 Ao iniciar, você verá o menu:
@@ -76,14 +58,9 @@ Ao iniciar, você verá o menu:
 
 ---
 
-## 🔨 Gerando o Executável (.exe)
 
-Se você quiser transformar o projeto em um programa para Windows que roda sem precisar de Python instalado:
-
-1. Execute o arquivo `compilar.bat`.
 2. O script irá configurar o ambiente, instalar as bibliotecas necessárias e gerar o arquivo na pasta `dist/`.
 
----
 
 ## 💡 Ativando o Buscador via CMD
 
@@ -100,9 +77,8 @@ Se você quiser abrir o buscador rapidamente apenas digitando um comando no seu 
 3. Salve o arquivo com o nome **`busca.bat`** (ou o nome que preferir).
 4. **Dica de Ouro**: Se você salvar esse arquivo `.bat` dentro da pasta `C:\Windows`, você poderá simplesmente abrir o CMD em qualquer lugar e digitar `busca` para iniciar o programa instantaneamente!
 
----
 
-## 📄 Licença
+
 
 Este projeto é de uso livre para estudos e melhorias. Sinta-se à vontade para contribuir!
 
