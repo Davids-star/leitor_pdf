@@ -4,6 +4,8 @@ from pathlib import Path
 
 SETTINGS_FILE = "configuracoes.json"
 
+#           Configurações do sistema de buscar_pdf
+
 def obter_pastas_padrao():
     """
     Detecta automaticamente as pastas do usuário atual (Documentos, Downloads, Desktop).
@@ -12,6 +14,7 @@ def obter_pastas_padrao():
     home = Path.home()
     
     # Mapeamento de nomes comuns (incluindo variações em português)
+
     mapa_pastas = {
         "Documents": ["Documents", "Documentos"],
         "Downloads": ["Downloads"],
@@ -19,7 +22,9 @@ def obter_pastas_padrao():
     }
     
     pastas_validas = []
-    
+
+    #Processo de busca pelas pastas existente dentro da minha lista
+
     for _, variacoes in mapa_pastas.items():
         for nome in variacoes:
             caminho = home / nome

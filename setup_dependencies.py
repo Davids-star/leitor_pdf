@@ -6,7 +6,9 @@ import shutil
 import subprocess
 
 def instalar_requisitos():
+
     """Tenta instalar as bibliotecas do requirements.txt automaticamente (Apenas no Python)"""
+    
     if getattr(sys, 'frozen', False):
         return
 

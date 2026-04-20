@@ -9,10 +9,13 @@ class BuscadorTexto:
         """Remove acentos e converte para minúsculas."""
         if not texto:
             return ""
+#               """Ignora espaços, acentos"""
         return unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("utf-8").lower()
 
     def contem_termo(self, texto, termo):
+
         """Verifica se o texto contém o termo ou palavras similares (80%+)."""
+        
         texto_norm = self.normalizar(texto)
         termo_norm = self.normalizar(termo)
         
@@ -21,7 +24,9 @@ class BuscadorTexto:
         
         palavras_texto = texto_norm.split()
         palavras_busca = termo_norm.split()
-        
+
+        """ Aqui faz a função de similaridade"""
+
         for p_busca in palavras_busca:
             encontrou_similar = False
             for p_texto in palavras_texto:
@@ -33,6 +38,8 @@ class BuscadorTexto:
                 return False
         
         return True
+
+        """ Faz as buscas expecificas de numero, cpf texto e stmb"""    
 
     def buscar_cpf(self, texto):
         return re.findall(r"\d{3}\.\d{3}\.\d{3}-\d{2}", texto)

@@ -19,16 +19,18 @@ class ProcessadorArquivos:
         if not os.path.exists(base_path):
             return []
 
-        for root, _, files in os.walk(base_path):
+        for root, _, files in os.walk(base_path): #Irá olhar dentro das pastas ignorando as subpastas no meu BASE_PATH
             for arquivo in files:
-                ext = os.path.splitext(arquivo)[1].lower()
+                ext = os.path.splitext(arquivo)[1].lower()#Aqui ele olha o nome do arquivo e verifica o final dele(.pdf, .txt ...)
                 if ext in extensoes_limpas:
-                    arquivos_encontrados.append(os.path.join(root, arquivo))
+                    arquivos_encontrados.append(os.path.join(root, arquivo))#Aqui ele junta o caminho da pasta com o nome do arquivo
         
         return arquivos_encontrados
 
     def configurar_busca_pc(self):
-        """Varre as pastas configuradas em busca de arquivos válidos."""
+
+        """Varre as pastas configuradas em busca de arquivos válidos. .pdf, .txt, .docx, .xlsx"""
+
         config = carregar_configuracoes()
         print(f"🔍 Varrendo pastas: {', '.join(config['caminhos_busca'])}")
         
@@ -40,7 +42,9 @@ class ProcessadorArquivos:
         self.arquivos_disponiveis = todos_arquivos
 
     def processar_tudo(self, termo="", tipo_busca="texto"):
+
         """Processa todos os arquivos encontrados de acordo com o tipo de busca."""
+
         if self.arquivos_disponiveis is None:
             self.configurar_busca_pc()
 
@@ -99,9 +103,9 @@ class ProcessadorArquivos:
             self.configurar_busca_pc()
 
         filtrados = [
-            arq for arq in self.arquivos_disponiveis 
-            if any(n.lower() in os.path.basename(arq).lower() for n in lista_nomes)
-        ]
+            arq for arq in self.arquivos_disponiveis #pecorre todos os arquivos disponíveis 
+            if any(n.lower() in os.path.basename(arq).lower() for n in lista_nomes) #retorna o arquivo se tiver o nome digitado
+        ]   
 
         encontrados = {}
         for caminho in filtrados:
