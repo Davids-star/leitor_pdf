@@ -1,7 +1,7 @@
 import os
 import pytesseract
-from pdf2image import convert_from_path
-from PyPDF2 import PdfReader
+import fitz  # PyMuPDF
+from PIL import Image
 from docx import Document
 from openpyxl import load_workbook
 
@@ -9,6 +9,7 @@ class LeitorDocumento:
     """Classe responsável por ler diferentes formatos de arquivos e extrair texto."""
 
     def __init__(self, poppler_path=None, tesseract_path=None):
+        # poppler_path não é mais necessário com PyMuPDF, mas mantemos para compatibilidade
         self.poppler_path = poppler_path
         if tesseract_path:
             pytesseract.pytesseract.tesseract_cmd = tesseract_path
@@ -16,23 +17,25 @@ class LeitorDocumento:
     def ler_pdf(self, caminho):
         texto = ""
         try:
-            # Limite de 10MB para evitar estouro de memória
             tamanho = os.path.getsize(caminho)
             if tamanho > 10 * 1024 * 1024:
                 print(f"  ⚠ Arquivo muito grande para OCR ({tamanho/1024/1024:.1f}MB): {os.path.basename(caminho)}")
                 return ""
 
-            # Tenta extração direta de texto
-            reader = PdfReader(caminho)
-            for pagina in reader.pages:
-                texto += pagina.extract_text() or ""
+            # Usando PyMuPDF (fitz) para extração direta e OCR se necessário
+            with fitz.open(caminho) as doc:
+                # Tenta extração direta de texto
+                for pagina in doc:
+                    texto += pagina.get_text()
 
-            # Se o texto estiver vazio, tenta OCR
-            if not texto.strip():
-                print(f"  [OCR] Ativado para: {os.path.basename(caminho)}")
-                imagens = convert_from_path(caminho, dpi=100, first_page=1, last_page=1, poppler_path=self.poppler_path)
-                for img in imagens:
-                    texto += pytesseract.image_to_string(img)
+                # Se o texto estiver vazio, tenta OCR (usando fitz para gerar imagem)
+                if not texto.strip():
+                    print(f"  [OCR] Ativado para: {os.path.basename(caminho)}")
+                    for pagina in doc:
+                        # Renderiza página para imagem (Pillow)
+                        pix = pagina.get_pixmap(matrix=fitz.Matrix(2, 2)) # Zoom 2x para melhor OCR
+                        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                        texto += pytesseract.image_to_string(img)
         except Exception as e:
             print(f"  ❌ Erro ao ler PDF {os.path.basename(caminho)}: {e}")
         return texto

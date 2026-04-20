@@ -3,6 +3,23 @@ import sys
 import zipfile
 import urllib.request
 import shutil
+import subprocess
+
+def instalar_requisitos():
+    """Tenta instalar as bibliotecas do requirements.txt automaticamente (Apenas no Python)"""
+    if getattr(sys, 'frozen', False):
+        return
+
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        req_path = os.path.join(base_dir, "requirements.txt")
+        if os.path.exists(req_path):
+            print("📦 Verificando e instalando bibliotecas (pymupdf, pytesseract, etc)...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", req_path])
+            print("✅ Bibliotecas prontas!")
+    except Exception as e:
+        print(f"⚠ Aviso: Não foi possível instalar bibliotecas automaticamente: {e}")
+        print("Sugerido: Execute 'pip install pymupdf' manualmente.")
 
 def get_base_path():
     """Retorna o diretório base (onde está o script ou o .exe)"""
@@ -68,9 +85,14 @@ def baixar_e_extrair(url, pasta_destino):
 def configurar_caminhos():
     """Retorna os caminhos configurados baseados na pasta dependencias"""
     base = get_base_path()
-    deps_path = os.path.join(base, "dependencias", "zip") # Adicionado 'zip' aqui
+    deps_path = os.path.join(base, "dependencias", "zip")
     
-    tesseract_exe = os.path.join(deps_path, "tesseract", "tesseract.exe")
+    # Busca dinamicamente pela pasta do tesseract (pode ser 'tesseract' ou 'Tesseract-OCR')
+    tesseract_dir = os.path.join(deps_path, "tesseract")
+    if not os.path.exists(tesseract_dir):
+        tesseract_dir = os.path.join(deps_path, "Tesseract-OCR")
+    
+    tesseract_exe = os.path.join(tesseract_dir, "tesseract.exe")
     poppler_bin = os.path.join(deps_path, "poppler", "Library", "bin")
     
     return tesseract_exe, poppler_bin

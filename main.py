@@ -1,10 +1,12 @@
 import os
 import sys
+
+from processador import ProcessadorArquivos
 from setup_dependencies import baixar_e_extrair, configurar_caminhos
 from config import carregar_configuracoes, configurar_caminhos_manualmente
-from processador import ProcessadorArquivos
 
 # --- CONFIGURAÇÃO DE DEPENDÊNCIAS ---
+# Garante que as dependências de sistema (Tesseract/Poppler) existam
 URL_DEPENDENCIAS = "https://github.com/Davids-star/leitor_pdf/releases/download/v1.0/zip.zip"
 baixar_e_extrair(URL_DEPENDENCIAS, "dependencias")
 TESSERACT_PATH, POPPLER_PATH = configurar_caminhos()
@@ -51,26 +53,26 @@ def main():
         elif opcao == "2":
             resultados = app.processar_tudo("", tipo_busca="cpf")
             for arq, cpfs in resultados.items():
-                print(f"\n📄 {os.path.basename(arq)}: {', '.join(cpfs)}")
+                print(f"\n📄 {os.path.basename(arq)}: {', '.join(cpfs)} -> {os.path.dirname(arq)}")
 
         elif opcao == "3":
             resultados = app.processar_tudo("", tipo_busca="telefone")
             for arq, tels in resultados.items():
-                print(f"\n📄 {os.path.basename(arq)}: {', '.join(tels)}")
+                print(f"\n📄 {os.path.basename(arq)}: {', '.join(tels)} -> {os.path.dirname(arq)}")
 
         elif opcao == "4":
             resultados = app.processar_tudo("", tipo_busca="stmb")
             for arq, stmbs in resultados.items():
-                print(f"\n📄 {os.path.basename(arq)}: {', '.join(stmbs)}")
+                print(f"\n📄 {os.path.basename(arq)}: {', '.join(stmbs)} -> {os.path.dirname(arq)}")
 
         elif opcao == "5":
             resultados = app.processar_tudo("", tipo_busca="extrair_numero")
             for arq, nums in resultados.items():
-                print(f"📄 {os.path.basename(arq)} ({len(nums)} números)")
+                print(f"📄 {os.path.basename(arq)} ({len(nums)} números) -> {os.path.dirname(arq)}")
 
         elif opcao == "7":
             configurar_caminhos_manualmente()
-            # Reseta arquivos para forçar nova varredura
+            # Reseta arquivos para forçar nova varredura2
             app.arquivos_disponiveis = None
         
         else:
